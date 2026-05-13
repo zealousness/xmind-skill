@@ -70,3 +70,59 @@ scripts/
 ## License
 
 MIT
+
+## Editing XMind files
+
+Use `skills/xmind/scripts/edit_xmind.mjs` to edit **modern XMind** files (`content.json` inside `.xmind`).
+
+- Supported operations: `rename`, `append_children`
+- Requires `--output` (never overwrites source)
+- `--dry-run` shows planned changes and writes nothing
+- Not supported: XMind 8 editing, advanced style/relationship/image editing
+
+### operations.json example
+
+```json
+[
+  {
+    "op": "rename",
+    "target": {"path": ["中心主题", "一级节点", "二级节点"]},
+    "title": "新的节点标题"
+  },
+  {
+    "op": "append_children",
+    "target": {"id": "parent-topic-id"},
+    "children": [
+      {"title": "新增子节点 A"},
+      {"title": "新增子节点 B", "children": [{"title": "新增孙节点 B-1"}]}
+    ]
+  }
+]
+```
+
+### Dry run
+
+```bash
+node skills/xmind/scripts/edit_xmind.mjs \
+  --input input.xmind \
+  --ops examples/edit-operations.json \
+  --dry-run
+```
+
+### Write output
+
+```bash
+node skills/xmind/scripts/edit_xmind.mjs \
+  --input input.xmind \
+  --output output.xmind \
+  --ops examples/edit-operations.json
+```
+
+### Example output
+
+```text
+Edit summary:
+- rename: b-1 "旧标题" -> "新标题"
+- append_children: a-1 appended 2 child(ren)
+outputPath: /tmp/output.xmind
+```
