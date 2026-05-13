@@ -346,3 +346,46 @@ echo '{"action": "search_nodes", "path": "/path/to/file.xmind", "query": "auth",
 - **Notes should be substantial and detailed** — don't just repeat the topic title. Use notes to add explanations, context, definitions, examples, key points, or reasoning. Aim for 2-5 sentences minimum per note. Use HTML notes with `<strong>`, `<ul>`/`<li>`, `<br>` for well-structured content. Most topics should have notes unless they are self-explanatory leaf nodes.
 - The read script outputs JSON to stdout — pipe or redirect as needed
 - All read actions require the `action` field in the input JSON
+
+## Editing existing XMind files (modern only)
+
+Use `scripts/edit_xmind.mjs` for lightweight updates to existing modern XMind files.
+
+### Supported edit operations
+
+- `rename`: rename one topic (`target.id` preferred, `target.path` supported)
+- `append_children`: append one or more children at the end of a topic's existing child list (supports nested subtrees)
+
+### Natural-language triggers for edit mode
+
+- “修改这个 XMind 中某个节点的标题”
+- “在某个节点下面追加几个子节点”
+- “把节点 A 改名为 B”
+- “rename this node in the map”
+- “append children under this topic”
+
+### CLI
+
+```bash
+node <skill-dir>/scripts/edit_xmind.mjs \
+  --input input.xmind \
+  --output output.xmind \
+  --ops operations.json
+```
+
+Dry run:
+
+```bash
+node <skill-dir>/scripts/edit_xmind.mjs \
+  --input input.xmind \
+  --ops operations.json \
+  --dry-run
+```
+
+### Important constraints
+
+- Only supports modern XMind files with `content.json` (XMind Zen / XMind 2020+)
+- Never overwrites source file (`--output` is required unless `--dry-run`)
+- Only supports `rename` and `append_children`
+- Does **not** support XMind 8 editing
+- Does not guarantee advanced style/relationship/image editing

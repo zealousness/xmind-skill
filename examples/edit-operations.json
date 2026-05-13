@@ -1,0 +1,28 @@
+[
+  {
+    "op": "rename",
+    "target": {
+      "path": ["Central Topic", "Branch 1"]
+    },
+    "title": "Branch 1 (Renamed)"
+  },
+  {
+    "op": "append_children",
+    "target": {
+      "id": "replace-with-parent-topic-id"
+    },
+    "children": [
+      {
+        "title": "新增子节点 A"
+      },
+      {
+        "title": "新增子节点 B",
+        "children": [
+          {
+            "title": "新增孙节点 B-1"
+          }
+        ]
+      }
+    ]
+  }
+]
